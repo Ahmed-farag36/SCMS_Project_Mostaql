@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Homepage from "./pages/Homepage";
@@ -11,26 +11,47 @@ import Inventory from "./pages/Inventory";
 import Dashboard from "./pages/Dashboard";
 
 import Layout from "./components/Layout";
+import AuthProvider from "./components/AuthProvider";
+import SupplierRoute from "./components/SupplierRoute";
+import CustomerRoute from "./components/CustomerRoute";
+import AdminRoute from "./components/AdminRoute";
+import AuthenticatedRoute from "./components/AuthenticatedRoute";
 
 import "./styles.css";
 
+export const userContext = createContext();
+
 export default function App() {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Layout>
-          <Switch>
-            <Route exact path="/" component={Homepage} />
-            <Route path="/warehouse" component={Warehouse} />
-            <Route exact path="/products/:productId" component={Product} />
-            <Route exact path="/orders" component={Orders} />
-            <Route path="/orders/:orderId" component={Order} />
-            <Route path="/inventory" component={Inventory} />
-            <Route path="/products" component={Products} />
-            <Route path="/dashboard" component={Dashboard} />
-          </Switch>
-        </Layout>
-      </BrowserRouter>
-    </div>
-  );
+	return (
+		<BrowserRouter>
+			<AuthProvider>
+				<Layout>
+					<Switch>
+						<Route exact path="/" component={Homepage} />
+						<AdminRoute path="/dashboard">
+							<Dashboard />
+						</AdminRoute>
+						<AuthenticatedRoute path="/orders/:orderId">
+							<Order />
+						</AuthenticatedRoute>
+						<SupplierRoute path="/orders">
+							<Orders />
+						</SupplierRoute>
+						<SupplierRoute path="/warehouse">
+							<Warehouse />
+						</SupplierRoute>
+						<CustomerRoute path="/inventory">
+							<Inventory />
+						</CustomerRoute>
+						<AuthenticatedRoute path="/products/:productId">
+							<Product />
+						</AuthenticatedRoute>
+						<AuthenticatedRoute path="/products">
+							<Products />
+						</AuthenticatedRoute>
+					</Switch>
+				</Layout>
+			</AuthProvider>
+		</BrowserRouter>
+	);
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import CustomerOrdersTable from "../components/CustomerOrdersTable";
 import CustomerOffersTable from "../components/CustomerOffersTable";
@@ -7,37 +7,40 @@ import CustomerInventoryTable from "../components/CustomerInventoryTable";
 import useQuery from "../hooks/useQuery";
 
 import {
-  getAllForCustomer,
-  getCustomerInventory,
-  getAllCustomerOffers
+	getAllForCustomer,
+	getCustomerInventory,
+	getAllCustomerOffers
 } from "../services/orders";
 
+import { UserContext } from "../components/AuthProvider";
+
 export default () => {
-  const { data: inventory } = useQuery(() => getCustomerInventory("200"));
-  const { data: offers } = useQuery(() => getAllCustomerOffers("200"));
-  const { data: orders, loading } = useQuery(() => getAllForCustomer("200"));
+	const user = useContext(UserContext);
 
-  if (loading) return <h1>loading</h1>;
-  console.log(orders);
+	const { data: inventory } = useQuery(() => getCustomerInventory("200"));
+	const { data: offers } = useQuery(() => getAllCustomerOffers("200"));
+	const { data: orders, loading } = useQuery(() => getAllForCustomer("200"));
 
-  const handleConfirmOffer = () => {};
-  const handleRemoveProduct = () => {};
-  const handleCancelOrder = () => {};
+	if (loading) return <h1>loading</h1>;
 
-  return (
-    <>
-      <CustomerOrdersTable
-        orders={orders}
-        handleCancelOrder={handleCancelOrder}
-      />
-      <CustomerOffersTable
-        offers={offers}
-        handleConfirmOffer={handleConfirmOffer}
-      />
-      <CustomerInventoryTable
-        inventory={inventory}
-        handleRemoveProduct={handleRemoveProduct}
-      />
-    </>
-  );
+	const handleConfirmOffer = () => {};
+	const handleRemoveProduct = () => {};
+	const handleCancelOrder = () => {};
+
+	return (
+		<>
+			<CustomerOrdersTable
+				orders={orders}
+				handleCancelOrder={handleCancelOrder}
+			/>
+			<CustomerOffersTable
+				offers={offers}
+				handleConfirmOffer={handleConfirmOffer}
+			/>
+			<CustomerInventoryTable
+				inventory={inventory}
+				handleRemoveProduct={handleRemoveProduct}
+			/>
+		</>
+	);
 };
