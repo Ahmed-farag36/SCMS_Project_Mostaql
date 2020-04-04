@@ -1,30 +1,33 @@
-const HOST = "http://localhost:3001"
+const HOST = "https://vy54w.sse.codesandbox.io";
 
-export const getUser = (username, password) => {
-	return Promise.resolve({ id: "100", role: "Supplier" }); //userId
+export const getUser = () => {
+  return fetch(`${HOST}/users`, {
+    method: "GET"
+  }).then(res => res.json());
 };
 
-export const register = (username, password, confirmPassword, email, role) => {
-	console.log(username)
-	// fetch(`${HOST}/register`, {
-	// 	method: "POST",
-	// 	headers: {
-	// 		"content-type": "application/json"
-	// 	},
-	// 	body: {
-	// 		username,
-	// 		password,
-	// 		confirmPassword,
-	// 		email,
-	// 		role
-	// 	}
-	// })
+export const signUp = (username, password, confirmPassword, email, role) => {
+  return fetch(`${HOST}/users/register`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json"
+    },
+    body: JSON.stringify({
+      username,
+      password,
+      confirmPassword,
+      email,
+      role
+    })
+  }).then(res => res.json());
 };
 
-export const loginAsSupplier = () => {
-	return Promise.resolve({ id: "100", role: "Supplier" });
-};
-
-export const loginAsAdmin = () => {
-	return Promise.resolve({ id: "200", role: "Admin" });
+export const login = (username, password) => {
+  return fetch(`${HOST}/users/login`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json"
+    },
+    body: JSON.stringify({ username, password })
+  }).then(res => res.json());
 };

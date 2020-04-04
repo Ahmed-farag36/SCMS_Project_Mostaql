@@ -1,45 +1,51 @@
-import React, { useState } from 'react'
-import { Form, Header, Button } from 'semantic-ui-react'
+import React, { useState } from "react";
+import { Form, Header, Button, Label, Message } from "semantic-ui-react";
+import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 
-import { register } from "../services/users"
+import { signUp } from "../services/users";
 
 export default function Signup() {
-  const [user, setUser] = useState({})
+  const [error, setError] = useState("");
+  const { push } = useHistory();
+  const { register, handleSubmit } = useForm();
 
-  const handleRegister = e => {
-    console.log(user)
-    register(
-      
-      e.target.confirmPassword.value,
-      e.target.email.value,
-      e.target.role.value,
-    )
-  }
+  const handleRegister = ({
+    username,
+    password,
+    confirmPassword,
+    email,
+    role
+  }) => {
+    signUp(username, password, confirmPassword, email, role).then(data => {
+      if (data.message === `Registered successfully`) {
+        push("/users/login", data);
+      } else {
+        setError(data.error);
+      }
+    });
+  };
 
   return (
     <div style={{ width: "25vw", margin: "10vh auto" }}>
       <Header as="h1" content="Register New Account" />
-      <Form onSubmit={handleRegister}>
-        <Form.Field control="input" name="username" value={user.username} onChange={(e) => setUser({...user, username: e.target.value})} label="Username" />
-        <Form.Field control="input" name="password" value={user.password} onChange={(e) => setUser({...user, password: e.target.value})} type="password" label="Password" />
-        <Form.Field control="input" name="confirmPassword" value={user.confirmPassword} onChange={(e) => setUser({...user, confirmPassword: e.target.value})}  type="password" label="Confirm Password" />
-        <Form.Field control="input" name="email" value={user.email} onChange={(e) => setUser({...user, email: e.target.value})}  type="email" label="Email" />
-        <Form.Field
-        control="select"
-          name="role"
-          value={user.role} 
-          onChange={(e) => setUser({...user, role: e.target.value})} 
-          // options={[
-          //   { key: "C", text: 'Customer', value: 'customer' },
-          //   { key: "S", text: 'Supplier', value: 'supplier' },
-          // ]}
-          label="Role"
-        >
-          <option>Customer</option>
-          <option>Supplier</option>
-        </Form.Field>
+      {error && <Message content={error} negative />}
+      <Form onSubmit={handleSubmit(handleRegister)}>
+        <Label content="Username" basic />
+        <input name="username" ref={register} />
+        <Label content="Password" basic />
+        <input name="password" type="password" ref={register} />
+        <Label content="Confirm Password" basic />
+        <input name="confirmPassword" type="password" ref={register} />
+        <Label content="Email" basic />
+        <input name="email" type="email" ref={register} />
+        <Label content="Role" basic />
+        <select name="role" ref={register}>
+          <option value="customer">Customer</option>
+          <option value="supplier">Supplier</option>
+        </select>
         <Button content="Signup" primary />
       </Form>
-    </div >
-  )
+    </div>
+  );
 }
