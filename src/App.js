@@ -9,6 +9,8 @@ import Orders from "./pages/Orders";
 import Order from "./pages/Order";
 import Inventory from "./pages/Inventory";
 import Dashboard from "./pages/Dashboard";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 
 import Layout from "./components/Layout";
 import AuthProvider from "./components/AuthProvider";
@@ -28,6 +30,8 @@ export default function App() {
 				<Layout>
 					<Switch>
 						<Route exact path="/" component={Homepage} />
+						<Route path="/signup" component={Signup} />
+						<Route path="/login" component={Login} />
 						<AdminRoute path="/dashboard">
 							<Dashboard />
 						</AdminRoute>

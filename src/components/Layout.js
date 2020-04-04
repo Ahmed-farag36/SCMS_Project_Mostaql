@@ -29,9 +29,9 @@ export default ({ children }) => {
 							</li>
 						)}
 						{/* {user && user.role === "Customer" && ( */}
-						<li>
+						{/* <li>
 							<Link to="/inventory">Inventory</Link>
-						</li>
+						</li> */}
 						{/* )} */}
 						{user && (
 							<li>
@@ -43,7 +43,7 @@ export default ({ children }) => {
 						src="https://avatars0.githubusercontent.com/u/31740010?v=4"
 						avatar
 					/>
-					<span>John Doe</span>
+					<span>John Doe (Loggedin as supplier)</span>
 				</nav>
 			</header>
 			<main>{children}</main>

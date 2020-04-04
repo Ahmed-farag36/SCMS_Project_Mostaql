@@ -1,32 +1,20 @@
-import DB from "./dummyDB";
+const HOST = "http://localhost:3001";
 
 export const getAll = () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(DB.products);
-    }, 500);
-  });
+	return fetch(`${HOST}/products`);
 };
 
 export const getAllForSupplier = supplierId => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      const products = DB.products.filter(
-        product => product.supplierId === supplierId
-      );
-      resolve(products);
-    }, 500);
-  });
+	return fetch(`${HOST}/products/suppliers/${supplierId}`);
 };
 
 export const getOne = productId => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      const product = DB.products.find(product => product.id === productId);
-      const supplier = DB.suppliers.find(
-        supplier => supplier.id === product.supplierId
-      );
-      resolve({ ...product, supplier });
-    }, 500);
-  });
+	return fetch(`${HOST}/products/${productId}`);
+};
+
+export const addOne = formData => {
+	return fetch(`${HOST}/products/suppliers/new-product`, {
+		method: "POST",
+		body: formData
+	});
 };

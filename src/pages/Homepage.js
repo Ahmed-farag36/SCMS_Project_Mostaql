@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
-import { Header, Button } from "semantic-ui-react";
+import { Header, Button, Form } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 import { UserContext } from "../components/AuthProvider";
 
 export default () => {
-	const { login, user } = useContext(UserContext);
+	const { /* login, */ user } = useContext(UserContext);
 	console.log(user);
 	return (
 		<>
@@ -15,24 +15,15 @@ export default () => {
 			/>
 			<Button
 				as={Link}
-				to="/inventory"
-				content="Login as Customer"
+				to="/signup"
+				content="Register"
 				primary
-				onClick={() => login("Customer")}
 			/>
 			<Button
 				as={Link}
-				to="/warehouse"
-				content="Login as Supplier"
+				to="/login"
+				content="Login"
 				primary
-				onClick={() => login("Supplier")}
-			/>
-			<Button
-				as={Link}
-				to="/dashboard"
-				content="Login as Admin"
-				primary
-				onClick={() => login("Admin")}
 			/>
 		</>
 	);
