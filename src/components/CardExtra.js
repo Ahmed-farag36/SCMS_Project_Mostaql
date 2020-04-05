@@ -1,9 +1,7 @@
 import React from "react";
-import { Label, Rating, Button } from "semantic-ui-react";
+import { Label } from "semantic-ui-react";
 
-export default ({ quantity, sold, rating }) => {
-  const handleAddToWishlist = () => {};
-
+export default ({ quantity, sold, rating, productId }) => {
   return (
     <>
       <Label
@@ -23,9 +21,7 @@ export default ({ quantity, sold, rating }) => {
       />
       <Label icon="in cart" content={`In stock ${quantity}`} color="green" />
       <Label icon="in cart" content={`Sold ${sold}`} color="grey" />
-      <Label icon="in cart" content={`Sold ${sold}`} color="grey" />
-      <Button content="Add to Inventory" onClick={handleAddToWishlist} />
-      <Rating maxRating="5" rating={rating} disabled />
+      {/* <Rating maxRating="5" rating={rating} disabled /> */}
     </>
   );
 };

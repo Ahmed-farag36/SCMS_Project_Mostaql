@@ -1,5 +1,7 @@
 import DB from "./dummyDB";
 
+const HOST = `https://vy54w.sse.codesandbox.io`;
+
 export const getAll = () => {
   return new Promise(resolve => {
     setTimeout(() => {
@@ -9,15 +11,7 @@ export const getAll = () => {
 };
 
 export const getAllForSupplier = supplierId => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(
-        DB.orders.filter(
-          order => order.supplierId === supplierId && order.type === "Confirmed"
-        )
-      );
-    }, 500);
-  });
+  return fetch(`${HOST}/orders/suppliers/${supplierId}`);
 };
 
 export const getOne = orderId => {
@@ -29,36 +23,49 @@ export const getOne = orderId => {
 };
 
 export const getAllForCustomer = customerId => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(
-        DB.orders.filter(
-          order => order.customerId === customerId && order.type === "Confirmed"
-        )
-      );
-    }, 500);
-  });
+  return fetch(`${HOST}/orders/customers/${customerId}`);
 };
 
 export const getAllCustomerOffers = customerId => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(
-        DB.orders.filter(
-          order => order.customerId === customerId && order.type !== "Confirmed"
-        )
-      );
-    }, 500);
-  });
+  return fetch(`${HOST}/orders/customers/${customerId}/offers`);
 };
 
 export const getCustomerInventory = customerId => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      const { inventory } = DB.customers.find(
-        customer => customer.id === customerId
-      );
-      resolve(DB.products.filter(product => inventory.includes(product.id)));
-    }, 500);
+  return fetch(`${HOST}/products/customers/${customerId}`);
+};
+
+export const inquireProduct = (customerId, inventory, quantity) => {
+  const products = inventory.map((product, i) => {
+    return {
+      productId: product._id,
+      productTitle: product.title,
+      quantity: quantity[`qty${i}`],
+      price: product.price
+    };
+  });
+  return fetch(`${HOST}/orders/customers/${customerId}/inquire`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json"
+    },
+    body: JSON.stringify({
+      supplierId: inventory[0].supplierId,
+      customerId,
+      status: "Proccessing",
+      type: "Inquire",
+      products
+    })
+  });
+};
+
+export const confirmOrder = orderId => {
+  return fetch(`${HOST}/orders/${orderId}/confirm`, {
+    method: "PUT"
+  });
+};
+
+export const customerCancelOrder = orderId => {
+  return fetch(`${HOST}/orders/${orderId}/customerCancel`, {
+    method: "PUT"
   });
 };

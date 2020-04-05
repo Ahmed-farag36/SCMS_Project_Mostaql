@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../components/AuthProvider";
 
 export default () => {
-  const { /* login, */ user } = useContext(UserContext);
-  console.log(user);
-  if (!user) {
+  const user = useContext(UserContext);
+
+  if (!user.username) {
     return (
       <>
         <Button as={Link} to="/signup" content="Register" primary />

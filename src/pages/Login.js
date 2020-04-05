@@ -13,7 +13,7 @@ export default function Login() {
   const handleFormSubmit = ({ username, password }) => {
     login(username, password).then(data => {
       console.log(data);
-      if (data.message === `logged in successfully `) {
+      if (data === `logged in successfully`) {
         push("/", data);
       } else {
         setError(data.error);

@@ -17,19 +17,29 @@ export default ({ orders, handleCancelOrder }) => (
       </Table.Header>
 
       <Table.Body>
-        {orders.map(({ id, status, issuedAt }, i) => (
-          <Table.Row key={id}>
-            <Table.Cell>{i + 1}</Table.Cell>
-            <Table.Cell>
-              <Link to={`/orders/${id}`}>{id}</Link>
-            </Table.Cell>
-            <Table.Cell>{status}</Table.Cell>
-            <Table.Cell>{issuedAt}</Table.Cell>
-            <Table.Cell>
-              <Button content="Cancel" negative onClick={handleCancelOrder} />
-            </Table.Cell>
+        {!orders.length ? (
+          <Table.Row>
+            <Table.Cell colSpan="5">No orders</Table.Cell>
           </Table.Row>
-        ))}
+        ) : (
+          orders.map(({ _id, status, issuedAt }, i) => (
+            <Table.Row key={_id}>
+              <Table.Cell>{i + 1}</Table.Cell>
+              <Table.Cell>
+                <Link to={`/orders/${_id}`}>{_id}</Link>
+              </Table.Cell>
+              <Table.Cell>{status}</Table.Cell>
+              <Table.Cell>{issuedAt}</Table.Cell>
+              <Table.Cell>
+                <Button
+                  content="Cancel"
+                  negative
+                  onClick={() => handleCancelOrder(_id)}
+                />
+              </Table.Cell>
+            </Table.Row>
+          ))
+        )}
       </Table.Body>
     </Table>
   </>

@@ -9,14 +9,12 @@ function AuthProvider({ children }) {
   console.log(user);
 
   useEffect(() => {
-    getUser().then(user => setUser(user));
+    getUser().then(user => {
+      user && setUser(user);
+    });
   }, []);
 
-  return (
-    <UserContext.Provider value={{ user /* , login */ }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 }
 
 export default AuthProvider;
