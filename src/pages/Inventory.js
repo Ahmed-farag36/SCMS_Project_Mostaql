@@ -30,12 +30,13 @@ export default () => {
     getCustomerInventory,
     user._id
   );
-  const { data: orders, setData: setOrders } = useQuery(
+  const { data: orders, loading: ordersLoading, setData: setOrders } = useQuery(
     getAllForCustomer,
     user._id
   );
 
   if (loading) return <h1>loading</h1>;
+  if (ordersLoading) return <h1>loading</h1>;
 
   const handleConfirmOffer = orderId => {
     confirmOrder(orderId).then(() => {

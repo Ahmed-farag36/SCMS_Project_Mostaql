@@ -15,11 +15,7 @@ export const getAllForSupplier = supplierId => {
 };
 
 export const getOne = orderId => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(DB.orders.find(order => order.id === orderId));
-    }, 500);
-  });
+  return fetch(`${HOST}/orders/${orderId}`);
 };
 
 export const getAllForCustomer = customerId => {
@@ -67,5 +63,18 @@ export const confirmOrder = orderId => {
 export const customerCancelOrder = orderId => {
   return fetch(`${HOST}/orders/${orderId}/customerCancel`, {
     method: "PUT"
+  });
+};
+
+export const supplierSendOffer = (orderId, price, dueDate) => {
+  return fetch(`${HOST}/orders/${orderId}/offer`, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json"
+    },
+    body: JSON.stringify({
+      price,
+      dueDate
+    })
   });
 };

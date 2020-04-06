@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Header, Table, Pagination, Icon } from "semantic-ui-react";
+import { Header, Table, Icon } from "semantic-ui-react";
 
 import useQuery from "../hooks/useQuery";
 
@@ -35,11 +35,11 @@ export default () => {
               <Table.Cell colSpan={4}>No Orders</Table.Cell>
             </Table.Row>
           ) : (
-            orders.map(({ id, issuedAt, status }, i) => (
-              <Table.Row key={id}>
+            orders.map(({ _id, issuedAt, status }, i) => (
+              <Table.Row key={_id}>
                 <Table.Cell singleLine>{i + 1}</Table.Cell>
                 <Table.Cell singleLine>
-                  <Link to={`/orders/${id}`}>{id}</Link>
+                  <Link to={`/orders/${_id}`}>{_id}</Link>
                 </Table.Cell>
                 <Table.Cell>{issuedAt}</Table.Cell>
                 <Table.Cell>

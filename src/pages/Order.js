@@ -8,7 +8,7 @@ import { getOne } from "../services/orders";
 
 export default () => {
   const { orderId } = useParams();
-  const { data: order, loading } = useQuery(() => getOne(orderId));
+  const { data: order, loading } = useQuery(getOne, orderId);
 
   if (loading) return <h1>loading</h1>;
   console.log(order);
